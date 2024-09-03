@@ -81,8 +81,8 @@ contract Basefriends {
         Connections storage connections = _getCurrentConnections(node);
 
         string[] memory followerNames = new string[](connections.followers.length());
-        for(uint256 i; i < connections.follows.length(); i++) {
-            followerNames[i] = _resolveName(connections.follows.at(i));
+        for(uint256 i; i < connections.followers.length(); i++) {
+            followerNames[i] = _resolveName(connections.followers.at(i));
         }
 
         return followerNames;

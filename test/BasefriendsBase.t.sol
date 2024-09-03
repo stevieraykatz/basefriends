@@ -9,7 +9,6 @@ import {ETH_NODE, BASE_ETH_NODE} from "basenames/src/util/Constants.sol";
 import {MockNameResolver} from "basenames/test/mocks/MockNameResolver.sol";
 
 contract BasefriendsBase is Test {
-
     Basefriends public bf;
     Registry public registry;
     MockNameResolver public resolver;
@@ -23,7 +22,7 @@ contract BasefriendsBase is Test {
     address userA = makeAddr("A");
     address userB = makeAddr("B");
     address userC = makeAddr("C");
-    mapping(address user => Data data) public records;
+    mapping(address user => Data data) public d;
 
     function setUp() public {
         registry = new Registry(owner);
@@ -51,8 +50,8 @@ contract BasefriendsBase is Test {
         vm.startPrank(nameOwner);
         registry.setResolver(node, address(resolver));
         resolver.setName(node, name);
-        records[nameOwner].name = name;
-        records[nameOwner].node = node;
+        d[nameOwner].name = name;
+        d[nameOwner].node = node;
         vm.stopPrank();
     }
 }
