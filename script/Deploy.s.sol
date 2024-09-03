@@ -2,7 +2,7 @@
 pragma solidity ^0.8.23;
 
 import {Script} from "forge-std/Script.sol";
-import {console} from "forge-std/Console.sol";
+import {console} from "forge-std/console.sol";
 import {Basefriends} from "src/Basefriends.sol";
 
 contract Deploy is Script {
