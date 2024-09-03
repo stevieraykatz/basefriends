@@ -4,3 +4,6 @@
 [submodule "lib/basenames"]
 	path = lib/basenames
 	url = https://github.com/base-org/basenames
+[submodule "lib/solady"]
+	path = lib/solady
+	url = https://github.com/vectorized/solady
