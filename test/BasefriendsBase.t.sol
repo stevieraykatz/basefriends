@@ -45,12 +45,13 @@ contract BasefriendsBase is Test {
 
     function _establishNameFor(address nameOwner, string memory name) internal {
         bytes32 nameLabel = keccak256(bytes(name));
+        string memory fullName = string.concat(name,".base.eth");
         vm.prank(owner);
         bytes32 node = registry.setSubnodeOwner(BASE_ETH_NODE, nameLabel, nameOwner);
         vm.startPrank(nameOwner);
         registry.setResolver(node, address(resolver));
-        resolver.setName(node, name);
-        d[nameOwner].name = name;
+        resolver.setName(node, fullName);
+        d[nameOwner].name = fullName;
         d[nameOwner].node = node;
         vm.stopPrank();
     }
