@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.23;
 
-
 import {EnumerableSetLib} from "solady/utils/EnumerableSetLib.sol";
 import {Registry} from "basenames/src/L2/Registry.sol";
 import {NameResolver} from "ens-contracts/resolvers/profiles/NameResolver.sol";
 
-/// @title Basefriends  
-/// 
+/// @title Basefriends
+///
 /// @notice Onchain friends and followers for your basenames. Each name gets two enumerable sets:
 ///     1. A `follows` set which is the name-holder's "friends".
 ///     2. A `followers` set which contains all of the names that have added this name to their "friends" list.abi
-/// 
+///
 /// @author @stevieraykatz
 contract Basefriends {
     using EnumerableSetLib for EnumerableSetLib.Bytes32Set;
@@ -27,14 +26,13 @@ contract Basefriends {
     event FollowerAdded(bytes32 indexed node, bytes32 newFollower);
     event FollowsAdded(bytes32 indexed node, bytes32[] newFollows);
 
-    Registry immutable registry; 
+    Registry immutable registry;
     mapping(bytes32 node => uint64 version) public versions;
     mapping(uint64 recordVersions => mapping(bytes32 node => Connections connections)) public graph;
-    
 
     modifier isAuthorized(bytes32 node) {
         address owner = registry.owner(node);
-        if(owner != msg.sender) revert NotAuthroized(node, msg.sender);
+        if (owner != msg.sender) revert NotAuthroized(node, msg.sender);
         _;
     }
 
@@ -45,7 +43,7 @@ contract Basefriends {
     function addFollows(bytes32 node, bytes32[] calldata newFollows) external isAuthorized(node) {
         Connections storage connections = graph[versions[node]][node];
 
-        for(uint256 i; i < newFollows.length; i++) {
+        for (uint256 i; i < newFollows.length; i++) {
             bytes32 follow = newFollows[i];
             connections.follows.add(follow);
             _addFollower(follow, node);
@@ -57,7 +55,7 @@ contract Basefriends {
     function removeFollows(bytes32 node, bytes32[] calldata newFollows) external isAuthorized(node) {
         Connections storage connections = _getCurrentConnections(node);
 
-        for(uint256 i; i < newFollows.length; i++) {
+        for (uint256 i; i < newFollows.length; i++) {
             bytes32 follow = newFollows[i];
             connections.follows.remove(follow);
             _removeFollower(follow, node);
@@ -70,7 +68,7 @@ contract Basefriends {
         Connections storage connections = _getCurrentConnections(node);
 
         string[] memory followNames = new string[](connections.follows.length());
-        for(uint256 i; i < connections.follows.length(); i++) {
+        for (uint256 i; i < connections.follows.length(); i++) {
             followNames[i] = _resolveName(connections.follows.at(i));
         }
 
@@ -81,7 +79,7 @@ contract Basefriends {
         Connections storage connections = _getCurrentConnections(node);
 
         string[] memory followerNames = new string[](connections.followers.length());
-        for(uint256 i; i < connections.followers.length(); i++) {
+        for (uint256 i; i < connections.followers.length(); i++) {
             followerNames[i] = _resolveName(connections.followers.at(i));
         }
 
@@ -91,7 +89,7 @@ contract Basefriends {
     function _resolveName(bytes32 node) internal view returns (string memory) {
         address resolver = registry.resolver(node);
         return NameResolver(resolver).name(node);
-    } 
+    }
 
     function _addFollower(bytes32 node, bytes32 follower) internal {
         Connections storage connections = _getCurrentConnections(node);
