@@ -64,25 +64,31 @@ contract Basefriends {
         emit FollowsAdded(node, newFollows);
     }
 
-    function getFollows(bytes32 node) external view returns (string[] memory) {
+    function getFollowNodes(bytes32 node) public view returns (bytes32[] memory) {
         Connections storage connections = _getCurrentConnections(node);
+        return connections.follows.values();
+    }
 
-        string[] memory followNames = new string[](connections.follows.length());
-        for (uint256 i; i < connections.follows.length(); i++) {
-            followNames[i] = _resolveName(connections.follows.at(i));
+    function getFollows(bytes32 node) external view returns (string[] memory) {
+        bytes32[] memory follows = getFollowNodes(node);
+        string[] memory followNames = new string[](follows.length);
+        for (uint256 i; i < follows.length; i++) {
+            followNames[i] = _resolveName(follows[i]);
         }
-
         return followNames;
     }
 
-    function getFollowers(bytes32 node) external view returns (string[] memory) {
+    function getFollowerNodes(bytes32 node) public view returns (bytes32[] memory) {
         Connections storage connections = _getCurrentConnections(node);
+        return connections.followers.values();
+    }
 
-        string[] memory followerNames = new string[](connections.followers.length());
-        for (uint256 i; i < connections.followers.length(); i++) {
-            followerNames[i] = _resolveName(connections.followers.at(i));
+    function getFollowers(bytes32 node) external view returns (string[] memory) {
+        bytes32[] memory followers = getFollowerNodes(node);
+        string[] memory followerNames = new string[](followers.length);
+        for (uint256 i; i < followers.length; i++) {
+            followerNames[i] = _resolveName(followers[i]);
         }
-
         return followerNames;
     }
 
