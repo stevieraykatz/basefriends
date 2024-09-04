@@ -1,17 +1,14 @@
-## Foundry
+![Screenshot 2024-09-03 at 3 06 04 PM](https://github.com/user-attachments/assets/1d8087ea-46bf-477f-ad6e-af211912ba58)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Basefriends
 
-Foundry consists of:
+**Basefriends allow a Basename holder to establish an on-chain identity graph**
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+*Follow your friends*
 
-## Documentation
+*Get followed by your friends*
 
-https://book.getfoundry.sh/
+*See who you follow and who follows you*
 
 ## Usage
 
