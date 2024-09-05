@@ -10,6 +10,10 @@
 
 *See who you follow and who follows you*
 
+## Deploymenets
+
+*Testnet:* https://sepolia.basescan.org/address/0xfd8d9995d894f8cb0b9898bf4dfb64ef03ff9725
+
 ## Usage
 
 ### Build
