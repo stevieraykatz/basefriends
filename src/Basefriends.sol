@@ -20,6 +20,7 @@ contract Basefriends {
         EnumerableSetLib.Bytes32Set followers;
     }
 
+    error InvalidNode(bytes32 node);
     error NotAuthroized(bytes32 node, address addr);
 
     event ConnectionsCleared(bytes32 indexed node);
@@ -44,6 +45,7 @@ contract Basefriends {
         Connections storage connections = graph[versions[node]][node];
 
         for (uint256 i; i < newFollows.length; i++) {
+            _validateNode(node);
             bytes32 follow = newFollows[i];
             connections.follows.add(follow);
             _addFollower(follow, node);
@@ -72,8 +74,12 @@ contract Basefriends {
     function getFollows(bytes32 node) external view returns (string[] memory) {
         bytes32[] memory follows = getFollowNodes(node);
         string[] memory followNames = new string[](follows.length);
+        uint256 acc;
         for (uint256 i; i < follows.length; i++) {
-            followNames[i] = _resolveName(follows[i]);
+            string memory name = _resolveName(follows[i]);
+            if(bytes(name).length !=  0) {
+                followNames[acc++] = name;
+            }
         }
         return followNames;
     }
@@ -86,15 +92,23 @@ contract Basefriends {
     function getFollowers(bytes32 node) external view returns (string[] memory) {
         bytes32[] memory followers = getFollowerNodes(node);
         string[] memory followerNames = new string[](followers.length);
+        uint256 acc; 
         for (uint256 i; i < followers.length; i++) {
-            followerNames[i] = _resolveName(followers[i]);
+            string memory name = _resolveName(followers[i]);
+            if(bytes(name).length !=  0) {
+                followerNames[acc++] = name;
+            }
         }
         return followerNames;
     }
 
     function _resolveName(bytes32 node) internal view returns (string memory) {
-        address resolver = registry.resolver(node);
-        return NameResolver(resolver).name(node);
+        address resolver = _getResolverForNode(node);
+        return resolver == address(0) ? "" : NameResolver(resolver).name(node);
+    }   
+
+    function _getResolverForNode(bytes32 node) internal view returns (address) {
+        return registry.resolver(node);
     }
 
     function _addFollower(bytes32 node, bytes32 follower) internal {
@@ -107,6 +121,10 @@ contract Basefriends {
         Connections storage connections = _getCurrentConnections(node);
         connections.followers.remove(follower);
         emit FollowerAdded(node, follower);
+    }
+
+    function _validateNode(bytes32 node) internal view {
+        if(_getResolverForNode(node) == address(0)) revert InvalidNode(node);
     }
 
     function clearAll(bytes32 node) external isAuthorized(node) {
