@@ -29,6 +29,20 @@ contract GetFollows is BasefriendsBase {
         }
     }
 
+    function test_returnsListOfFollowNamesThatHaveValidResolver() public {
+        vm.prank(userA);
+        bf.addFollows(d[userA].node, _getFollowArray());
+
+        vm.prank(userB);
+        registry.setResolver(d[userB].node, address(0));
+
+        string[] memory followNames = bf.getFollows(d[userA].node);
+        console.log("UserA Follows:");
+        for (uint256 i; i < followNames.length; i++) {
+            console.log(followNames[i]);
+        }
+    }
+
     function _getFollowArray() internal view returns (bytes32[] memory) {
         bytes32[] memory newFollows = new bytes32[](2);
         newFollows[0] = d[userB].node;
