@@ -45,7 +45,7 @@ contract Basefriends {
         Connections storage connections = graph[versions[node]][node];
 
         for (uint256 i; i < newFollows.length; i++) {
-            _validateNode(node);
+            _validateNode(newFollows[i]);
             bytes32 follow = newFollows[i];
             connections.follows.add(follow);
             _addFollower(follow, node);

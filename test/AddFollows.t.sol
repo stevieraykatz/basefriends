@@ -11,6 +11,15 @@ contract AddFollows is BasefriendsBase {
         bf.addFollows(d[userA].node, _getFollowArray());
     }
 
+    function test_reverts_forIvalidNodes() public {
+        bytes32 badNode = bytes32(uint256(42));
+        bytes32[] memory nodes = new bytes32[](1);
+        nodes[0] = badNode;
+        vm.expectRevert(abi.encodeWithSelector(Basefriends.InvalidNode.selector, badNode));
+        vm.prank(userA);
+        bf.addFollows(d[userA].node, nodes);
+    }
+
     function test_allowsNameholder_toAddFollows() public {
         vm.expectEmit(address(bf));
         emit Basefriends.FollowerAdded(d[userB].node, d[userA].node);
