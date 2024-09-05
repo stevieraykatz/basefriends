@@ -49,8 +49,8 @@ $ anvil
 ### Deploy
 
 ```shell
-cp .env.template .env
-// populate your PRIVATE_KEY
+$ cp .env.template .env
+// populate your PRIVATE_KEY in .env
 $ forge script script/Deploy.s.sol --rpc-url <your_rpc_url>
 ```
 
