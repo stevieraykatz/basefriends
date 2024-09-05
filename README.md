@@ -12,7 +12,7 @@
 
 ## Deploymenets
 
-*Testnet:* https://sepolia.basescan.org/address/0xfd8d9995d894f8cb0b9898bf4dfb64ef03ff9725
+*Testnet:* https://sepolia.basescan.org/address/0x128AA5d8DaD4148a8eB1F5aeBdA0e0a62510b87e
 
 ## Usage
 
