@@ -184,6 +184,16 @@ contract Basefriends {
         return followerNames;
     }
 
+    /// @notice Method for clearing all `Connections` for a specified `node`.
+    ///
+    /// @dev Rolls the `version` for the specific node, effectively clearing all records.
+    ///     `msg.sender` must be the owner of the specified `node`.
+    ///
+    /// @param node The node to clear `Connections` for.
+    function clearAll(bytes32 node) external isAuthorized(node) {
+        versions[node]++;
+    }
+
     function _resolveName(bytes32 node) internal view returns (string memory) {
         address resolver = _getResolverForNode(node);
         return resolver == address(0) ? "" : NameResolver(resolver).name(node);
@@ -207,10 +217,6 @@ contract Basefriends {
 
     function _validateNode(bytes32 node) internal view {
         if (_getResolverForNode(node) == address(0)) revert InvalidNode(node);
-    }
-
-    function clearAll(bytes32 node) external isAuthorized(node) {
-        versions[node]++;
     }
 
     function _getCurrentConnections(bytes32 node) internal view returns (Connections storage) {
