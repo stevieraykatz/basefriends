@@ -2,7 +2,7 @@
 pragma solidity ^0.8.23;
 
 import {Test} from "forge-std/Test.sol";
-import {console} from "forge-std/Console.sol";
+import {console} from "forge-std/console.sol";
 import {Basefriends} from "src/Basefriends.sol";
 import {Registry} from "basenames/src/L2/Registry.sol";
 import {ETH_NODE, BASE_ETH_NODE} from "basenames/src/util/Constants.sol";
