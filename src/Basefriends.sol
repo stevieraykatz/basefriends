@@ -9,7 +9,7 @@ import {NameResolver} from "ens-contracts/resolvers/profiles/NameResolver.sol";
 ///
 /// @notice Onchain friends and followers for your basenames. Each name gets two enumerable sets:
 ///     1. A `follows` set which is the name-holder's "friends".
-///     2. A `followers` set which contains all of the names that have added this name to their "friends" list.abi
+///     2. A `followers` set which contains all of the names that have added this name to their "friends" list.
 ///
 /// @author @stevieraykatz
 contract Basefriends {
@@ -161,7 +161,7 @@ contract Basefriends {
         return connections.followers.values();
     }
 
-    /// @notice Method for getting all of the `followes` names for a particular node.
+    /// @notice Method for getting all of the `followers` names for a particular node.
     ///
     /// @dev This mechanism relies on the fact that the Basenames webapp registration flow writes the
     ///     human-readable "name" to the L2Resolver. We fetch this data from the resolver and
